@@ -14,16 +14,495 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      ai_feedback: {
+        Row: {
+          book_id: string
+          created_at: string
+          feedback: string
+          id: string
+          recommendation_id: string | null
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string
+          feedback: string
+          id?: string
+          recommendation_id?: string | null
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string
+          feedback?: string
+          id?: string
+          recommendation_id?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "ai_feedback_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "ai_feedback_recommendation_id_fkey"
+            columns: ["recommendation_id"]
+            isOneToOne: false
+            referencedRelation: "ai_recommendations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      ai_recommendations: {
+        Row: {
+          created_at: string
+          id: string
+          query: string
+          recommendations: Json
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          query: string
+          recommendations?: Json
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          query?: string
+          recommendations?: Json
+          user_id?: string
+        }
+        Relationships: []
+      }
+      audit_log: {
+        Row: {
+          action: string
+          actor_email: string
+          actor_id: string | null
+          created_at: string
+          details: Json
+          id: string
+          target: string
+        }
+        Insert: {
+          action: string
+          actor_email?: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          target?: string
+        }
+        Update: {
+          action?: string
+          actor_email?: string
+          actor_id?: string | null
+          created_at?: string
+          details?: Json
+          id?: string
+          target?: string
+        }
+        Relationships: []
+      }
+      book_copies: {
+        Row: {
+          book_id: string
+          copy_label: string
+          created_at: string
+          id: string
+          status: string
+        }
+        Insert: {
+          book_id: string
+          copy_label: string
+          created_at?: string
+          id?: string
+          status?: string
+        }
+        Update: {
+          book_id?: string
+          copy_label?: string
+          created_at?: string
+          id?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "book_copies_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      books: {
+        Row: {
+          author: string
+          available_copies: number
+          book_code: string
+          cover_url: string | null
+          created_at: string
+          description: string
+          genre: string
+          id: string
+          isbn: string
+          position_no: number
+          publication_year: number | null
+          rating: number
+          row_no: number
+          section: string
+          shelf_label: string
+          title: string
+          total_copies: number
+          updated_at: string
+        }
+        Insert: {
+          author: string
+          available_copies?: number
+          book_code: string
+          cover_url?: string | null
+          created_at?: string
+          description?: string
+          genre: string
+          id?: string
+          isbn?: string
+          position_no?: number
+          publication_year?: number | null
+          rating?: number
+          row_no?: number
+          section: string
+          shelf_label: string
+          title: string
+          total_copies?: number
+          updated_at?: string
+        }
+        Update: {
+          author?: string
+          available_copies?: number
+          book_code?: string
+          cover_url?: string | null
+          created_at?: string
+          description?: string
+          genre?: string
+          id?: string
+          isbn?: string
+          position_no?: number
+          publication_year?: number | null
+          rating?: number
+          row_no?: number
+          section?: string
+          shelf_label?: string
+          title?: string
+          total_copies?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      borrowings: {
+        Row: {
+          book_id: string
+          borrowed_at: string
+          copy_id: string
+          created_at: string
+          due_date: string
+          id: string
+          returned_at: string | null
+          status: string
+          user_id: string
+          verification: string
+        }
+        Insert: {
+          book_id: string
+          borrowed_at?: string
+          copy_id: string
+          created_at?: string
+          due_date?: string
+          id?: string
+          returned_at?: string | null
+          status?: string
+          user_id: string
+          verification?: string
+        }
+        Update: {
+          book_id?: string
+          borrowed_at?: string
+          copy_id?: string
+          created_at?: string
+          due_date?: string
+          id?: string
+          returned_at?: string | null
+          status?: string
+          user_id?: string
+          verification?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "borrowings_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "borrowings_copy_id_fkey"
+            columns: ["copy_id"]
+            isOneToOne: false
+            referencedRelation: "book_copies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      favorites: {
+        Row: {
+          book_id: string
+          created_at: string
+          id: string
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string
+          id?: string
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string
+          id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "favorites_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          message: string
+          read: boolean
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message?: string
+          read?: boolean
+          title: string
+          type?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string
+          read?: boolean
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string
+          favorite_genres: string[]
+          id: string
+          interests: string[]
+          name: string
+          reading_preferences: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string
+          favorite_genres?: string[]
+          id: string
+          interests?: string[]
+          name?: string
+          reading_preferences?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          favorite_genres?: string[]
+          id?: string
+          interests?: string[]
+          name?: string
+          reading_preferences?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reservations: {
+        Row: {
+          book_id: string
+          created_at: string
+          id: string
+          queue_position: number
+          status: string
+          user_id: string
+        }
+        Insert: {
+          book_id: string
+          created_at?: string
+          id?: string
+          queue_position?: number
+          status?: string
+          user_id: string
+        }
+        Update: {
+          book_id?: string
+          created_at?: string
+          id?: string
+          queue_position?: number
+          status?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reservations_book_id_fkey"
+            columns: ["book_id"]
+            isOneToOne: false
+            referencedRelation: "books"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      search_history: {
+        Row: {
+          created_at: string
+          id: string
+          query: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          query: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          query?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      shelf_scans: {
+        Row: {
+          created_at: string
+          detected_books: Json
+          id: string
+          librarian_id: string
+          misplaced_books: Json
+          mode: string
+          shelf_label: string
+        }
+        Insert: {
+          created_at?: string
+          detected_books?: Json
+          id?: string
+          librarian_id: string
+          misplaced_books?: Json
+          mode?: string
+          shelf_label?: string
+        }
+        Update: {
+          created_at?: string
+          detected_books?: Json
+          id?: string
+          librarian_id?: string
+          misplaced_books?: Json
+          mode?: string
+          shelf_label?: string
+        }
+        Relationships: []
+      }
+      shelves: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          positions_per_row: number
+          rows_count: number
+          section: string
+          shelf_label: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          positions_per_row?: number
+          rows_count?: number
+          section: string
+          shelf_label: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          positions_per_row?: number
+          rows_count?: number
+          section?: string
+          shelf_label?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "user" | "librarian"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +629,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["user", "librarian"],
+    },
   },
 } as const
