@@ -14,6 +14,7 @@ import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authenticated/favorites'
 import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedMyBooksRouteImport } from './routes/_authenticated/my-books'
 import { Route as AuthenticatedRecommendationsRouteImport } from './routes/_authenticated/recommendations'
@@ -44,6 +45,11 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedFavoritesRoute = AuthenticatedFavoritesRouteImport.update({
+  id: '/favorites',
+  path: '/favorites',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const AuthenticatedLibraryRoute = AuthenticatedLibraryRouteImport.update({
   id: '/library',
@@ -84,6 +90,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/favorites': typeof AuthenticatedFavoritesRoute
   '/library': typeof AuthenticatedLibraryRoute
   '/my-books': typeof AuthenticatedMyBooksRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/favorites': typeof AuthenticatedFavoritesRoute
   '/library': typeof AuthenticatedLibraryRoute
   '/my-books': typeof AuthenticatedMyBooksRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/_authenticated/favorites': typeof AuthenticatedFavoritesRoute
   '/_authenticated/library': typeof AuthenticatedLibraryRoute
   '/_authenticated/my-books': typeof AuthenticatedMyBooksRoute
   '/_authenticated/recommendations': typeof AuthenticatedRecommendationsRoute
@@ -124,6 +133,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/register'
     | '/reset-password'
+    | '/favorites'
     | '/library'
     | '/my-books'
     | '/recommendations'
@@ -136,6 +146,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/register'
     | '/reset-password'
+    | '/favorites'
     | '/library'
     | '/my-books'
     | '/recommendations'
@@ -149,6 +160,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/register'
     | '/reset-password'
+    | '/_authenticated/favorites'
     | '/_authenticated/library'
     | '/_authenticated/my-books'
     | '/_authenticated/recommendations'
@@ -202,6 +214,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/favorites': {
+      id: '/_authenticated/favorites'
+      path: '/favorites'
+      fullPath: '/favorites'
+      preLoaderRoute: typeof AuthenticatedFavoritesRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/library': {
       id: '/_authenticated/library'
       path: '/library'
@@ -248,6 +267,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedRouteRouteChildren {
+  AuthenticatedFavoritesRoute: typeof AuthenticatedFavoritesRoute
   AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
   AuthenticatedMyBooksRoute: typeof AuthenticatedMyBooksRoute
   AuthenticatedRecommendationsRoute: typeof AuthenticatedRecommendationsRoute
@@ -257,6 +277,7 @@ interface AuthenticatedRouteRouteChildren {
 }
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedFavoritesRoute: AuthenticatedFavoritesRoute,
   AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
   AuthenticatedMyBooksRoute: AuthenticatedMyBooksRoute,
   AuthenticatedRecommendationsRoute: AuthenticatedRecommendationsRoute,
