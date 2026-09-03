@@ -18,6 +18,7 @@ import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authentica
 import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedMyBooksRouteImport } from './routes/_authenticated/my-books'
 import { Route as AuthenticatedRecommendationsRouteImport } from './routes/_authenticated/recommendations'
+import { Route as AuthenticatedReturnRouteImport } from './routes/_authenticated/return'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
 import { Route as AuthenticatedBooksBookIdRouteImport } from './routes/_authenticated/books.$bookId'
 import { Route as AuthenticatedLocateBookIdRouteImport } from './routes/_authenticated/locate.$bookId'
@@ -67,6 +68,11 @@ const AuthenticatedRecommendationsRoute =
     path: '/recommendations',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedReturnRoute = AuthenticatedReturnRouteImport.update({
+  id: '/return',
+  path: '/return',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedSearchRoute = AuthenticatedSearchRouteImport.update({
   id: '/search',
   path: '/search',
@@ -94,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/library': typeof AuthenticatedLibraryRoute
   '/my-books': typeof AuthenticatedMyBooksRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
+  '/return': typeof AuthenticatedReturnRoute
   '/search': typeof AuthenticatedSearchRoute
   '/books/$bookId': typeof AuthenticatedBooksBookIdRoute
   '/locate/$bookId': typeof AuthenticatedLocateBookIdRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/library': typeof AuthenticatedLibraryRoute
   '/my-books': typeof AuthenticatedMyBooksRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
+  '/return': typeof AuthenticatedReturnRoute
   '/search': typeof AuthenticatedSearchRoute
   '/books/$bookId': typeof AuthenticatedBooksBookIdRoute
   '/locate/$bookId': typeof AuthenticatedLocateBookIdRoute
@@ -122,6 +130,7 @@ export interface FileRoutesById {
   '/_authenticated/library': typeof AuthenticatedLibraryRoute
   '/_authenticated/my-books': typeof AuthenticatedMyBooksRoute
   '/_authenticated/recommendations': typeof AuthenticatedRecommendationsRoute
+  '/_authenticated/return': typeof AuthenticatedReturnRoute
   '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/books/$bookId': typeof AuthenticatedBooksBookIdRoute
   '/_authenticated/locate/$bookId': typeof AuthenticatedLocateBookIdRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/my-books'
     | '/recommendations'
+    | '/return'
     | '/search'
     | '/books/$bookId'
     | '/locate/$bookId'
@@ -150,6 +160,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/my-books'
     | '/recommendations'
+    | '/return'
     | '/search'
     | '/books/$bookId'
     | '/locate/$bookId'
@@ -164,6 +175,7 @@ export interface FileRouteTypes {
     | '/_authenticated/library'
     | '/_authenticated/my-books'
     | '/_authenticated/recommendations'
+    | '/_authenticated/return'
     | '/_authenticated/search'
     | '/_authenticated/books/$bookId'
     | '/_authenticated/locate/$bookId'
@@ -242,6 +254,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedRecommendationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/return': {
+      id: '/_authenticated/return'
+      path: '/return'
+      fullPath: '/return'
+      preLoaderRoute: typeof AuthenticatedReturnRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/search': {
       id: '/_authenticated/search'
       path: '/search'
@@ -271,6 +290,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
   AuthenticatedMyBooksRoute: typeof AuthenticatedMyBooksRoute
   AuthenticatedRecommendationsRoute: typeof AuthenticatedRecommendationsRoute
+  AuthenticatedReturnRoute: typeof AuthenticatedReturnRoute
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedBooksBookIdRoute: typeof AuthenticatedBooksBookIdRoute
   AuthenticatedLocateBookIdRoute: typeof AuthenticatedLocateBookIdRoute
@@ -281,6 +301,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
   AuthenticatedMyBooksRoute: AuthenticatedMyBooksRoute,
   AuthenticatedRecommendationsRoute: AuthenticatedRecommendationsRoute,
+  AuthenticatedReturnRoute: AuthenticatedReturnRoute,
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedBooksBookIdRoute: AuthenticatedBooksBookIdRoute,
   AuthenticatedLocateBookIdRoute: AuthenticatedLocateBookIdRoute,
