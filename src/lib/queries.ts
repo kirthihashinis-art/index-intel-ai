@@ -59,19 +59,69 @@ export async function fetchShelves() {
   return data ?? [];
 }
 
-export async function fetchFavoriteIds() {
-  const { data, error } = await supabase.from("favorites").select("book_id");
+export async function fetchFavoriteIds(userId: string) {
+  const { data, error } = await supabase.from("favorites").select("book_id").eq("user_id", userId);
   if (error) throw error;
   return new Set((data ?? []).map((f) => f.book_id));
 }
 
 export async function toggleFavorite(bookId: string, userId: string, isFavorite: boolean) {
   if (isFavorite) {
-    const { error } = await supabase.from("favorites").delete().eq("book_id", bookId);
+    const { error } = await supabase.from("favorites").delete().eq("book_id", bookId).eq("user_id", userId);
     if (error) throw error;
     return false;
   }
   const { error } = await supabase.from("favorites").insert({ book_id: bookId, user_id: userId });
   if (error) throw error;
   return true;
+}
+
+export const BORROWING_SELECT =
+  "id, book_id, copy_id, borrowed_at, due_date, returned_at, status, verification, books(id, title, author, genre, cover_url, section, shelf_label, row_no, position_no, available_copies, total_copies, rating, book_code, isbn, description, publication_year)";
+
+export type BorrowingRow = {
+  id: string;
+  book_id: string;
+  copy_id: string;
+  borrowed_at: string;
+  due_date: string;
+  returned_at: string | null;
+  status: string;
+  verification: string;
+  books: BookRow | null;
+};
+
+/** Loans for the signed-in user only (explicit user filter on top of RLS). */
+export async function fetchMyBorrowings(userId: string) {
+  const { data, error } = await supabase
+    .from("borrowings")
+    .select(BORROWING_SELECT)
+    .eq("user_id", userId)
+    .order("borrowed_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as unknown as BorrowingRow[];
+}
+
+export async function fetchMyFavorites(userId: string) {
+  const { data, error } = await supabase
+    .from("favorites")
+    .select(`id, book_id, created_at, books(${BOOK_FIELDS})`)
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map((row) => ({
+    favoriteId: row.id as string,
+    book: row.books as unknown as BookRow | null,
+  }));
+}
+
+export async function fetchNotifications(userId: string) {
+  const { data, error } = await supabase
+    .from("notifications")
+    .select("id, title, message, type, read, created_at")
+    .eq("user_id", userId)
+    .order("created_at", { ascending: false })
+    .limit(50);
+  if (error) throw error;
+  return data ?? [];
 }

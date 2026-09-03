@@ -33,7 +33,11 @@ function BookDetails() {
   const queryClient = useQueryClient();
 
   const book = useQuery({ queryKey: ["book", bookId], queryFn: () => fetchBook(bookId) });
-  const favorites = useQuery({ queryKey: ["favorite-ids"], queryFn: fetchFavoriteIds });
+  const favorites = useQuery({
+    queryKey: ["favorite-ids", session?.user?.id],
+    enabled: Boolean(session?.user?.id),
+    queryFn: () => fetchFavoriteIds(session!.user.id),
+  });
   const similar = useQuery({
     queryKey: ["similar", bookId],
     enabled: Boolean(book.data),
