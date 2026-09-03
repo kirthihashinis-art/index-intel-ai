@@ -128,7 +128,7 @@ function LoanRow({ row, action }: { row: BorrowingRow; action?: React.ReactNode 
   return (
     <li className="surface flex flex-wrap items-center gap-4 p-3">
       <div className="w-16 shrink-0">
-        <CoverArt title={book?.title ?? "Book"} author={book?.author ?? ""} url={book?.cover_url ?? null} />
+        <CoverArt title={book?.title ?? "Book"} author={book?.author ?? ""} coverUrl={book?.cover_url ?? null} />
       </div>
       <div className="min-w-40 flex-1">
         <p className="font-bold text-primary">
