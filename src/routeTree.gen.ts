@@ -15,6 +15,7 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as RegisterRouteImport } from './routes/register'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
+import { Route as AuthenticatedMyBooksRouteImport } from './routes/_authenticated/my-books'
 import { Route as AuthenticatedRecommendationsRouteImport } from './routes/_authenticated/recommendations'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
 import { Route as AuthenticatedBooksBookIdRouteImport } from './routes/_authenticated/books.$bookId'
@@ -49,6 +50,11 @@ const AuthenticatedLibraryRoute = AuthenticatedLibraryRouteImport.update({
   path: '/library',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const AuthenticatedMyBooksRoute = AuthenticatedMyBooksRouteImport.update({
+  id: '/my-books',
+  path: '/my-books',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedRecommendationsRoute =
   AuthenticatedRecommendationsRouteImport.update({
     id: '/recommendations',
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/library': typeof AuthenticatedLibraryRoute
+  '/my-books': typeof AuthenticatedMyBooksRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
   '/search': typeof AuthenticatedSearchRoute
   '/books/$bookId': typeof AuthenticatedBooksBookIdRoute
@@ -90,6 +97,7 @@ export interface FileRoutesByTo {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/library': typeof AuthenticatedLibraryRoute
+  '/my-books': typeof AuthenticatedMyBooksRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
   '/search': typeof AuthenticatedSearchRoute
   '/books/$bookId': typeof AuthenticatedBooksBookIdRoute
@@ -103,6 +111,7 @@ export interface FileRoutesById {
   '/register': typeof RegisterRoute
   '/reset-password': typeof ResetPasswordRoute
   '/_authenticated/library': typeof AuthenticatedLibraryRoute
+  '/_authenticated/my-books': typeof AuthenticatedMyBooksRoute
   '/_authenticated/recommendations': typeof AuthenticatedRecommendationsRoute
   '/_authenticated/search': typeof AuthenticatedSearchRoute
   '/_authenticated/books/$bookId': typeof AuthenticatedBooksBookIdRoute
@@ -116,6 +125,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/library'
+    | '/my-books'
     | '/recommendations'
     | '/search'
     | '/books/$bookId'
@@ -127,6 +137,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/library'
+    | '/my-books'
     | '/recommendations'
     | '/search'
     | '/books/$bookId'
@@ -139,6 +150,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/reset-password'
     | '/_authenticated/library'
+    | '/_authenticated/my-books'
     | '/_authenticated/recommendations'
     | '/_authenticated/search'
     | '/_authenticated/books/$bookId'
@@ -197,6 +209,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedLibraryRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/my-books': {
+      id: '/_authenticated/my-books'
+      path: '/my-books'
+      fullPath: '/my-books'
+      preLoaderRoute: typeof AuthenticatedMyBooksRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/recommendations': {
       id: '/_authenticated/recommendations'
       path: '/recommendations'
@@ -230,6 +249,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedRouteRouteChildren {
   AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
+  AuthenticatedMyBooksRoute: typeof AuthenticatedMyBooksRoute
   AuthenticatedRecommendationsRoute: typeof AuthenticatedRecommendationsRoute
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
   AuthenticatedBooksBookIdRoute: typeof AuthenticatedBooksBookIdRoute
@@ -238,6 +258,7 @@ interface AuthenticatedRouteRouteChildren {
 
 const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
+  AuthenticatedMyBooksRoute: AuthenticatedMyBooksRoute,
   AuthenticatedRecommendationsRoute: AuthenticatedRecommendationsRoute,
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,
   AuthenticatedBooksBookIdRoute: AuthenticatedBooksBookIdRoute,
