@@ -18,6 +18,7 @@ import { Route as AuthenticatedFavoritesRouteImport } from './routes/_authentica
 import { Route as AuthenticatedLibraryRouteImport } from './routes/_authenticated/library'
 import { Route as AuthenticatedMyBooksRouteImport } from './routes/_authenticated/my-books'
 import { Route as AuthenticatedNotificationsRouteImport } from './routes/_authenticated/notifications'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
 import { Route as AuthenticatedRecommendationsRouteImport } from './routes/_authenticated/recommendations'
 import { Route as AuthenticatedReturnRouteImport } from './routes/_authenticated/return'
 import { Route as AuthenticatedSearchRouteImport } from './routes/_authenticated/search'
@@ -69,6 +70,11 @@ const AuthenticatedNotificationsRoute =
     path: '/notifications',
     getParentRoute: () => AuthenticatedRouteRoute,
   } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 const AuthenticatedRecommendationsRoute =
   AuthenticatedRecommendationsRouteImport.update({
     id: '/recommendations',
@@ -107,6 +113,7 @@ export interface FileRoutesByFullPath {
   '/library': typeof AuthenticatedLibraryRoute
   '/my-books': typeof AuthenticatedMyBooksRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
   '/return': typeof AuthenticatedReturnRoute
   '/search': typeof AuthenticatedSearchRoute
@@ -122,6 +129,7 @@ export interface FileRoutesByTo {
   '/library': typeof AuthenticatedLibraryRoute
   '/my-books': typeof AuthenticatedMyBooksRoute
   '/notifications': typeof AuthenticatedNotificationsRoute
+  '/profile': typeof AuthenticatedProfileRoute
   '/recommendations': typeof AuthenticatedRecommendationsRoute
   '/return': typeof AuthenticatedReturnRoute
   '/search': typeof AuthenticatedSearchRoute
@@ -139,6 +147,7 @@ export interface FileRoutesById {
   '/_authenticated/library': typeof AuthenticatedLibraryRoute
   '/_authenticated/my-books': typeof AuthenticatedMyBooksRoute
   '/_authenticated/notifications': typeof AuthenticatedNotificationsRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
   '/_authenticated/recommendations': typeof AuthenticatedRecommendationsRoute
   '/_authenticated/return': typeof AuthenticatedReturnRoute
   '/_authenticated/search': typeof AuthenticatedSearchRoute
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/my-books'
     | '/notifications'
+    | '/profile'
     | '/recommendations'
     | '/return'
     | '/search'
@@ -171,6 +181,7 @@ export interface FileRouteTypes {
     | '/library'
     | '/my-books'
     | '/notifications'
+    | '/profile'
     | '/recommendations'
     | '/return'
     | '/search'
@@ -187,6 +198,7 @@ export interface FileRouteTypes {
     | '/_authenticated/library'
     | '/_authenticated/my-books'
     | '/_authenticated/notifications'
+    | '/_authenticated/profile'
     | '/_authenticated/recommendations'
     | '/_authenticated/return'
     | '/_authenticated/search'
@@ -267,6 +279,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedNotificationsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
     '/_authenticated/recommendations': {
       id: '/_authenticated/recommendations'
       path: '/recommendations'
@@ -310,6 +329,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedLibraryRoute: typeof AuthenticatedLibraryRoute
   AuthenticatedMyBooksRoute: typeof AuthenticatedMyBooksRoute
   AuthenticatedNotificationsRoute: typeof AuthenticatedNotificationsRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
   AuthenticatedRecommendationsRoute: typeof AuthenticatedRecommendationsRoute
   AuthenticatedReturnRoute: typeof AuthenticatedReturnRoute
   AuthenticatedSearchRoute: typeof AuthenticatedSearchRoute
@@ -322,6 +342,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedLibraryRoute: AuthenticatedLibraryRoute,
   AuthenticatedMyBooksRoute: AuthenticatedMyBooksRoute,
   AuthenticatedNotificationsRoute: AuthenticatedNotificationsRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
   AuthenticatedRecommendationsRoute: AuthenticatedRecommendationsRoute,
   AuthenticatedReturnRoute: AuthenticatedReturnRoute,
   AuthenticatedSearchRoute: AuthenticatedSearchRoute,
