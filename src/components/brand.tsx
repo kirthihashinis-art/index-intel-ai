@@ -61,7 +61,7 @@ export function CoverArt({
 }: {
   title: string;
   author: string;
-  coverUrl?: string | null;
+  coverUrl?: string | null | undefined;
   className?: string;
 }) {
   if (coverUrl) {
