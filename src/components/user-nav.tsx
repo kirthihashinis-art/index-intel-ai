@@ -65,12 +65,9 @@ export function UserNav() {
 
           <div className="ml-auto flex items-center gap-1.5">
             {isLibrarian ? (
-              <Link
-                to="/admin/dashboard"
-                className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-accent hover:bg-white/10 sm:flex"
-              >
-                <Shield className="size-4" aria-hidden="true" /> Admin
-              </Link>
+              <span className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-accent sm:flex">
+                <Shield className="size-4" aria-hidden="true" /> Librarian
+              </span>
             ) : null}
             <Link
               to="/notifications"
@@ -138,9 +135,9 @@ export function PageShell({
   className,
 }: {
   title: string;
-  description?: string;
+  description?: string | undefined;
   children: React.ReactNode;
-  actions?: React.ReactNode;
+  actions?: React.ReactNode | undefined;
   className?: string;
 }) {
   return (
