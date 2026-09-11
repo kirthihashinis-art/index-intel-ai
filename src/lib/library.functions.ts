@@ -130,16 +130,16 @@ export const returnBook = createServerFn({ method: "POST" })
     const title = (borrowing as { books?: { title?: string } }).books?.title ?? "Your book";
 
     if (nextInQueue) {
-      await supabase.from("book_copies").update({ status: "reserved" }).eq("id", borrowing.copy_id);
-      await supabase.from("reservations").update({ status: "ready" }).eq("id", nextInQueue.id);
-      await supabase.from("notifications").insert({
+      await supabaseAdmin.from("book_copies").update({ status: "reserved" }).eq("id", borrowing.copy_id);
+      await supabaseAdmin.from("reservations").update({ status: "ready" }).eq("id", nextInQueue.id);
+      await supabaseAdmin.from("notifications").insert({
         user_id: nextInQueue.user_id,
         title: "Your reserved book is available",
         message: `"${title}" is ready for collection.`,
         type: "reservation",
       });
     } else {
-      await supabase.from("book_copies").update({ status: "available" }).eq("id", borrowing.copy_id);
+      await supabaseAdmin.from("book_copies").update({ status: "available" }).eq("id", borrowing.copy_id);
     }
 
     await supabase.from("notifications").insert({
