@@ -11,6 +11,7 @@ const LINKS = [
   { to: "/library", label: "Home", icon: Home },
   { to: "/recommendations", label: "AI Recommendations", icon: Sparkles },
   { to: "/search", label: "Search Books", icon: Search },
+  { to: "/borrow", label: "Borrow Books", icon: BookPlus },
   { to: "/my-books", label: "My Books", icon: Bookmark },
   { to: "/favorites", label: "Favorites", icon: Heart },
   { to: "/return", label: "Return Book", icon: RotateCcw },
