@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Bell, Bookmark, Heart, Home, LogOut, RotateCcw, Search, Shield, Sparkles, User } from "lucide-react";
+import { Bell, BookPlus, Bookmark, Heart, Home, LogOut, RotateCcw, Search, Shield, Sparkles, User } from "lucide-react";
 
 import { Logo } from "@/components/brand";
 import { useSession } from "@/hooks/useSession";
