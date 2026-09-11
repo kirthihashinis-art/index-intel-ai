@@ -9,6 +9,9 @@ export const borrowBook = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ bookId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    // Copy status is librarian-writable under RLS, so shelf bookkeeping runs with the
+    // privileged client AFTER the loan row proves this user owns the transaction.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: existing } = await supabase
       .from("borrowings")
