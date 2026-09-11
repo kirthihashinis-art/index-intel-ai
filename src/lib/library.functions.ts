@@ -102,6 +102,7 @@ export const returnBook = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: borrowing } = await supabase
       .from("borrowings")
       .select("id, user_id, copy_id, book_id, status, books(title)")
