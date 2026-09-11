@@ -42,7 +42,7 @@ export const borrowBook = createServerFn({ method: "POST" })
         .maybeSingle();
       if (error || !row) continue; // copy taken by someone else — try the next one
 
-      await supabase.from("book_copies").update({ status: "borrowed" }).eq("id", copy.id);
+      await supabaseAdmin.from("book_copies").update({ status: "borrowed" }).eq("id", copy.id);
       await supabase.from("notifications").insert({
         user_id: userId,
         title: "Book borrowed",
