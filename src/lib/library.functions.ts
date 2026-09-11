@@ -9,6 +9,9 @@ export const borrowBook = createServerFn({ method: "POST" })
   .inputValidator((d) => z.object({ bookId: z.string().uuid() }).parse(d))
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    // Copy status is librarian-writable under RLS, so shelf bookkeeping runs with the
+    // privileged client AFTER the loan row proves this user owns the transaction.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
 
     const { data: existing } = await supabase
       .from("borrowings")
@@ -39,7 +42,7 @@ export const borrowBook = createServerFn({ method: "POST" })
         .maybeSingle();
       if (error || !row) continue; // copy taken by someone else — try the next one
 
-      await supabase.from("book_copies").update({ status: "borrowed" }).eq("id", copy.id);
+      await supabaseAdmin.from("book_copies").update({ status: "borrowed" }).eq("id", copy.id);
       await supabase.from("notifications").insert({
         user_id: userId,
         title: "Book borrowed",
@@ -99,6 +102,7 @@ export const returnBook = createServerFn({ method: "POST" })
   )
   .handler(async ({ data, context }) => {
     const { supabase, userId } = context;
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { data: borrowing } = await supabase
       .from("borrowings")
       .select("id, user_id, copy_id, book_id, status, books(title)")
@@ -126,16 +130,16 @@ export const returnBook = createServerFn({ method: "POST" })
     const title = (borrowing as { books?: { title?: string } }).books?.title ?? "Your book";
 
     if (nextInQueue) {
-      await supabase.from("book_copies").update({ status: "reserved" }).eq("id", borrowing.copy_id);
-      await supabase.from("reservations").update({ status: "ready" }).eq("id", nextInQueue.id);
-      await supabase.from("notifications").insert({
+      await supabaseAdmin.from("book_copies").update({ status: "reserved" }).eq("id", borrowing.copy_id);
+      await supabaseAdmin.from("reservations").update({ status: "ready" }).eq("id", nextInQueue.id);
+      await supabaseAdmin.from("notifications").insert({
         user_id: nextInQueue.user_id,
         title: "Your reserved book is available",
         message: `"${title}" is ready for collection.`,
         type: "reservation",
       });
     } else {
-      await supabase.from("book_copies").update({ status: "available" }).eq("id", borrowing.copy_id);
+      await supabaseAdmin.from("book_copies").update({ status: "available" }).eq("id", borrowing.copy_id);
     }
 
     await supabase.from("notifications").insert({

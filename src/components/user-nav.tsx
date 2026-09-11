@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Bell, Bookmark, Heart, Home, LogOut, RotateCcw, Search, Shield, Sparkles, User } from "lucide-react";
+import { Bell, BookPlus, Bookmark, Heart, Home, LogOut, RotateCcw, Search, Shield, Sparkles, User } from "lucide-react";
 
 import { Logo } from "@/components/brand";
 import { useSession } from "@/hooks/useSession";
@@ -11,6 +11,7 @@ const LINKS = [
   { to: "/library", label: "Home", icon: Home },
   { to: "/recommendations", label: "AI Recommendations", icon: Sparkles },
   { to: "/search", label: "Search Books", icon: Search },
+  { to: "/borrow", label: "Borrow Books", icon: BookPlus },
   { to: "/my-books", label: "My Books", icon: Bookmark },
   { to: "/favorites", label: "Favorites", icon: Heart },
   { to: "/return", label: "Return Book", icon: RotateCcw },
@@ -64,12 +65,9 @@ export function UserNav() {
 
           <div className="ml-auto flex items-center gap-1.5">
             {isLibrarian ? (
-              <Link
-                to="/admin/dashboard"
-                className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-accent hover:bg-white/10 sm:flex"
-              >
-                <Shield className="size-4" aria-hidden="true" /> Admin
-              </Link>
+              <span className="hidden items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold text-accent sm:flex">
+                <Shield className="size-4" aria-hidden="true" /> Librarian
+              </span>
             ) : null}
             <Link
               to="/notifications"
@@ -137,9 +135,9 @@ export function PageShell({
   className,
 }: {
   title: string;
-  description?: string;
+  description?: string | undefined;
   children: React.ReactNode;
-  actions?: React.ReactNode;
+  actions?: React.ReactNode | undefined;
   className?: string;
 }) {
   return (

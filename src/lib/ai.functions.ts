@@ -7,6 +7,23 @@ import { callGemini, parseJsonObject, aiConfigured, AI_MODEL } from "./ai.server
 const CANDIDATE_FIELDS =
   "id, book_code, title, author, genre, description, rating, publication_year, available_copies, total_copies, section, shelf_label, row_no, position_no";
 
+export type CandidateBook = {
+  id: string;
+  book_code: string;
+  title: string;
+  author: string;
+  genre: string;
+  description: string;
+  rating: number;
+  publication_year: number | null;
+  available_copies: number;
+  total_copies: number;
+  section: string;
+  shelf_label: string;
+  row_no: number;
+  position_no: number;
+};
+
 export type Recommendation = {
   book_id: string;
   reason: string;
@@ -71,7 +88,7 @@ export const recommendBooks = createServerFn({ method: "POST" })
       .slice(0, 6);
     const terms = [...new Set([...words, ...data.interests.map((i) => i.toLowerCase())])];
 
-    const candidates = new Map<string, Record<string, unknown>>();
+    const candidates = new Map<string, CandidateBook>();
     if (terms.length) {
       const or = terms
         .flatMap((t) => [`title.ilike.%${t}%`, `author.ilike.%${t}%`, `genre.ilike.%${t}%`, `description.ilike.%${t}%`])

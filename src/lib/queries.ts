@@ -125,3 +125,11 @@ export async function fetchNotifications(userId: string) {
   if (error) throw error;
   return data ?? [];
 }
+
+export async function fetchAvailableBooks(genre = "All") {
+  let query = supabase.from("books").select(BOOK_FIELDS).gt("available_copies", 0).order("title").limit(60);
+  if (genre && genre !== "All") query = query.eq("genre", genre);
+  const { data, error } = await query;
+  if (error) throw error;
+  return (data ?? []) as BookRow[];
+}
